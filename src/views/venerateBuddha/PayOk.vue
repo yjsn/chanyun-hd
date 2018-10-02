@@ -12,8 +12,8 @@
       <div class="other-background">
         <div class="other-content">
           <div class="pay-ok-btn">
-            <button @click="gotoHome">返回首页</button>
-            <button>查看功德簿</button>
+            <div class="button-css" @click="gotoHome">返回首页</div>
+            <div class="button-css">查看功德簿</div>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default {
   .pay-ok-btn {
     margin-top: 100px;
     text-align: center;
-    button {
+    .button-css {
       width: 296px;
       height: 45px;
       font-size: 18px;
@@ -118,12 +118,12 @@ export default {
       outline: none;
       margin: 0 50px;
     }
-    button:first-of-type {
+    .button-css:first-of-type {
       border:2px solid rgba(74,30,24,1);
       color: #4A1E18;
       background: #f8e3bd;
     }
-    button:last-of-type {
+    .button-css:last-of-type {
       border:2px solid rgba(74,30,24,1);
       background:rgba(74,30,24,1);
       color: white;

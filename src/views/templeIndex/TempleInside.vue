@@ -27,7 +27,7 @@
                 <label>电话</label>
                 <input v-model="data.templeContactTel" type="text" placeholder="请填写电话">
               </div>
-              <button @click="submit">提交</button>
+              <div class="button-css" @click="submit">提交</div>
             </form>
           </div>
         </div>

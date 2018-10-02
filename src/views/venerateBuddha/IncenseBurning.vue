@@ -44,7 +44,7 @@
                   <option v-for="item in incenseList" :key="item.id" :value="item.id">{{ item.meritsName }}</option>
                 </select>
               </div>
-              <div class="buttonCss" @click="submit">提交</div>
+              <div class="button-css" @click="submit">提交</div>
             </form>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
 }
-.buttonCss {
+.button-css {
   width: 400px;
   height: 45px;
   color: #4A1E18;

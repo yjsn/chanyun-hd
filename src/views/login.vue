@@ -37,7 +37,7 @@
             <span class="line" />
             <input v-model="data.userPassword" type="password" placeholder="请输入密码">
           </div>
-          <button @click="submit">提交</button>
+          <div class="button-css" @click="submit">提交</div>
           <p class="bottom-box">
             <span>忘记密码</span>
             <span @click="$router.push('/register')">立即注册</span>
@@ -184,7 +184,7 @@ export default {
     .login-input:first-of-type {
       margin-bottom: 20px;
     }
-    button {
+    .button-css {
       width: 417px;
       height: 42px;
       color: #4A1E18;

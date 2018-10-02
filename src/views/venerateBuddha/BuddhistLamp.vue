@@ -44,7 +44,7 @@
                   <option v-for="item in incenseList" :key="item.id" :value="item.id">{{ item.meritsName }}</option>
                 </select>
               </div>
-              <button @click="submit">提交</button>
+              <div class="button-css" @click="submit">提交</div>
             </form>
           </div>
         </div>

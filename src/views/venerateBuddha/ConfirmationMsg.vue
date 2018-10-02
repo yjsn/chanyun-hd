@@ -14,7 +14,7 @@
             <p><span>功德：</span><span>{{ meritsAccount }}</span></p>
             <p><span>支付金额：</span><span>{{ meritsAccount }}</span></p>
             <p><span>支付方式：</span><span class="pay-text"><img src="@/assets/check.png" alt="">微信支付</span></p>
-            <button v-if="hadQc" @click="submit">提交</button>
+            <div class="button-css" v-if="hadQc" @click="submit">提交</div>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@ export default {
           }
         }
       }
-      button {
+      .button-css {
         width: 400px;
         height: 45px;
         color: #FFFFFF;
