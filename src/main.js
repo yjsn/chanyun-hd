@@ -8,8 +8,10 @@ import store from './store'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import MetaInfo from 'vue-meta-info'
+import Calendar from 'vue2-datepick'
 Vue.use(VueAwesomeSwiper)
 Vue.use(MetaInfo)
+Vue.use(Calendar)
 import VModal from 'vue-js-modal'
 Vue.use(VModal, { dialog: true })
 import Paginate from 'vuejs-paginate'

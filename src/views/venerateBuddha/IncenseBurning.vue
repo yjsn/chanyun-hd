@@ -44,6 +44,10 @@
                   <option v-for="item in incenseList" :key="item.id" :value="item.id">{{ item.meritsName }}</option>
                 </select>
               </div>
+              <div class="input-box-row">
+                <label>预约时间：</label>
+                <date-picker v-model="data.applyTime"/>
+              </div>
               <div class="button-css" @click="submit">提交</div>
             </form>
           </div>
@@ -56,8 +60,12 @@
 
 <script>
 import { addApplyMerits, getBodhisatvvaList, getTempleList, getIncenseList } from '@/api/index'
+import DatePicker from 'z-date-picker'
 export default {
   name: 'IncenseBurning',
+  components: {
+    DatePicker
+  },
   data() {
     return {
       data: {
@@ -69,7 +77,8 @@ export default {
         customerAddressProvince: null,
         customerAddressCity: null,
         customerAddressArea: null,
-        customerAddress: null
+        customerAddress: null,
+        applyTime: '2018-10-19'
       },
       bodhisatvvaList: [
         {
@@ -141,6 +150,14 @@ export default {
       })
       getIncenseList({ id: this.data.templeId }).then(res => {
         this.incenseList = res.data
+      })
+    },
+    setDate() {
+      this.$picker.show({
+        type: 'datePicker',
+        onOk: (date) => {
+          this.data.applyTime = date
+        }
       })
     }
   }
