@@ -12,13 +12,15 @@ Vue.use(VueAwesomeSwiper)
 Vue.use(MetaInfo)
 import VModal from 'vue-js-modal'
 Vue.use(VModal, { dialog: true })
-
 import Paginate from 'vuejs-paginate'
 Vue.component('paginate', Paginate)
 
 import VDistpicker from 'v-distpicker'
 
 Vue.component('v-distpicker', VDistpicker)
+
+// import { MessageBox, Message } from 'element-ui'
+// Vue.use(MessageBox)
 
 import '@/styles/index.scss' // global css
 import '@/icons' // icon

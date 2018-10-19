@@ -196,6 +196,8 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       margin-top: 30px;
+      text-align: center;
+      line-height: 42px;
     }
     .bottom-box {
       font-size: 14px;

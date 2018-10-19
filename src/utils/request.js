@@ -1,5 +1,5 @@
 import axios from 'axios'
-// import { Message, MessageBox } from? 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
 axios.defaults.withCredentials = true
@@ -28,30 +28,29 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code !== '0000') {
-      // Message({
-      //   message: res.message,
-      //   type: 'error',
-      //   duration: 5 * 1000
-      // })
+      Message({
+        message: res.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
 
       if (res.code === '0002') {
-        alert('登陆失效，请重新登陆')
-        store.dispatch('FedLogOut').then(() => {
-          location.reload()
+        MessageBox.confirm(
+          '你已被登出，可以取消继续留在该页面，或者重新登录',
+          '确定登出',
+          {
+            confirmButtonText: '重新登录',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          store.dispatch('FedLogOut').then(() => {
+            location.reload()
+          })
         })
-        // MessageBox.confirm(
-        //   '你已被登出，可以取消继续留在该页面，或者重新登录',
-        //   '确定登出',
-        //   {
-        //     confirmButtonText: '重新登录',
-        //     cancelButtonText: '取消',
-        //     type: 'warning'
-        //   }
-        // ).then(() => {
-        //   store.dispatch('FedLogOut').then(() => {
-        //     location.reload()
-        //   })
-        // })
+      }
+      if (res.code === '0003') {
+        Message.closeAll()
       }
       return Promise.reject('error')
     } else {

@@ -14,7 +14,7 @@
             <p><span>功德：</span><span>{{ meritsAccount }}</span></p>
             <p><span>支付金额：</span><span>{{ meritsAccount }}</span></p>
             <p><span>支付方式：</span><span class="pay-text"><img src="@/assets/check.png" alt="">微信支付</span></p>
-            <div class="button-css" v-if="hadQc" @click="submit">提交</div>
+            <div v-if="hadQc" class="button-css" @click="submit">提交</div>
           </div>
         </div>
       </div>
@@ -69,6 +69,7 @@ export default {
       createOrder({ payType: 'weixin', id: this.$route.query.id }).then(res => {
         this.hadQc = false
         this.image = 'data:image/png;base64,' + res.data.payUrl
+        window.scrollTo(0, 0)
         // let time = null
         this.time = setInterval(() => {
           meritsIsSuccess({ meritsNumber: res.data.merits.meritsNumber }).then(res => {
@@ -155,6 +156,9 @@ export default {
         position: relative;
         transform: translateX(-50%);
         margin-top: 50px;
+        line-height: 45px;
+        text-align: center;
+        cursor: pointer;
       }
     }
   }

@@ -85,6 +85,7 @@ ul,li{ padding:0;margin:0;list-style:none}
 .other-container {
   background: #f8e3bd;
   min-height: calc(100vh - 254px - 164px);
+  min-width: 1260px;
   .other-main {
     max-width: 1440px;
     position: relative;
@@ -180,6 +181,8 @@ ul,li{ padding:0;margin:0;list-style:none}
     outline: none;
     margin-bottom: 57px;
     margin-left: 215px;
+    text-align: center;
+    line-height: 45px;
   }
   label {
     display: inline-block;
