@@ -9,7 +9,7 @@
         <div class="other-content">
           <div class="text-content">
             <h1>确认信息</h1>
-            <p><span>所属项目：</span><span>{{ meritsTypeName }}</span></p>
+            <p><span>所属项目：</span><span>{{ meritsType }}</span></p>
             <p><span>祈愿人：</span><span>{{ customerName }}</span></p>
             <p><span>功德：</span><span>{{ meritsAccount }}</span></p>
             <p><span>支付金额：</span><span>{{ meritsAccount }}</span></p>

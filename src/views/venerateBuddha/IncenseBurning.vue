@@ -9,44 +9,44 @@
             <form>
               <div class="input-box-row">
                 <label>姓名</label>
-                <input v-model="data.customerName" type="text" placeholder="请输入祈福人的真实姓名">
+                <input v-model="data.merits.customerName" type="text" placeholder="请输入祈福人的真实姓名">
               </div>
               <div class="input-box-row">
                 <label>年龄</label>
-                <input v-model="data.customerAge" type="text" placeholder="请输入祈福人的真实年龄">
+                <input v-model="data.merits.customerAge" type="text" placeholder="请输入祈福人的真实年龄">
               </div>
               <div class="input-box-row">
                 <label>请选择</label>
                 <v-distpicker @province="changeProvince" @city="changeCity" @area="changeArea"/>
               </div>
               <div class="input-box-row">
-                <label>地址</label>
-                <input v-model="data.customerAddress" type="text" placeholder="请填写详细地址">
-              </div>
-              <div class="input-box-row">
                 <label>寺庙</label>
-                <select v-model="data.templeId" class="my-select" @change="choosedTemple">
+                <select v-model="data.merits.templeId" class="my-select" @change="choosedTemple">
                   <option value="" disabled selected style="display:none;">请选择寺庙</option>
                   <option v-for="item in templeList" :key="item.id" :value="item.id">{{ item.templeName }}</option>
                 </select>
               </div>
               <div class="input-box-row">
                 <label>菩萨名称</label>
-                <select v-model="data.godName" class="my-select">
+                <select v-model="data.merits.godName" class="my-select">
                   <option value="" disabled selected style="display:none;">请选择菩萨</option>
                   <option v-for="item in bodhisatvvaList" :key="item.id" :value="item.bodhisattvaName">{{ item.bodhisattvaName }}</option>
                 </select>
               </div>
               <div class="input-box-row">
                 <label>香型</label>
-                <select v-model="data.meritsProductId" class="my-select">
+                <select v-model="data.merits.meritsProductId" class="my-select">
                   <option value="" disabled selected style="display:none;">请选择香型</option>
                   <option v-for="item in incenseList" :key="item.id" :value="item.id">{{ item.meritsName }}</option>
                 </select>
               </div>
               <div class="input-box-row">
+                <label>许愿内容</label>
+                <textarea v-model="data.promiseContent" rows="5" placeholder="请填写许愿内容，内容不得超过50个字"/>
+              </div>
+              <div class="input-box-row">
                 <label>预约时间：</label>
-                <date-picker v-model="data.applyTime"/>
+                <date-picker v-model="data.merits.applyTime"/>
               </div>
               <div class="button-css" @click="submit">提交</div>
             </form>
@@ -69,16 +69,19 @@ export default {
   data() {
     return {
       data: {
-        customerName: null,
-        customerAge: null,
-        templeId: '',
-        godName: '',
-        meritsProductId: '',
-        customerAddressProvince: null,
-        customerAddressCity: null,
-        customerAddressArea: null,
-        customerAddress: null,
-        applyTime: '2018-10-19'
+        merits: {
+          customerName: null,
+          customerAge: null,
+          templeId: '',
+          templeName: null,
+          godName: '',
+          meritsProductId: '',
+          customerAddressProvince: null,
+          customerAddressCity: null,
+          customerAddressArea: null,
+          applyTime: this.getNowDate()
+        },
+        promiseContent: null
       },
       bodhisatvvaList: [
         {
@@ -102,17 +105,34 @@ export default {
   },
   methods: {
     changeProvince(e) {
-      this.data.customerAddressProvince = e.value
+      this.data.merits.customerAddressProvince = e.value
     },
     changeCity(e) {
-      this.data.customerAddressCity = e.value
+      this.data.merits.customerAddressCity = e.value
     },
     changeArea(e) {
-      this.data.customerAddressArea = e.value
+      this.data.merits.customerAddressArea = e.value
+    },
+    getNowDate() {
+      const date = new Date()
+      const seperator1 = '-'
+      const year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let strDate = date.getDate()
+      if (month >= 1 && month <= 9) {
+        month = '0' + month
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = '0' + strDate
+      }
+      const currentdate = year + seperator1 + month + seperator1 + strDate
+      console.log(currentdate)
+      return currentdate
     },
     submit() {
-      for (const item in this.data) {
-        if (!this.data[item]) {
+      for (const item in this.data.merits) {
+        console.log(this.data.merits[item])
+        if (!this.data.merits[item]) {
           this.$modal.show('dialog', {
             title: '错误!',
             text: '请完整输入',
@@ -128,6 +148,20 @@ export default {
           return
         }
       }
+      if (this.data.promiseContent.length > 50) {
+        this.$modal.show('dialog', {
+          title: '错误!',
+          text: '许愿内容不得超过50个字',
+          buttons: [
+            {
+              title: '确定',
+              handler: () => {
+                this.$modal.hide('dialog')
+              }
+            }
+          ]
+        })
+      }
       addApplyMerits(this.data).then(res => {
         this.$modal.show('dialog', {
           title: '提交成功!',
@@ -136,7 +170,7 @@ export default {
             {
               title: '确定',
               handler: () => {
-                this.$router.push({ path: '/confirmationMsg', query: { meritsType: res.data.meritsType, customerName: res.data.customerName, meritsAccount: res.data.meritsAccount, id: res.data.id }})
+                this.$router.push({ path: '/confirmationMsg', query: { meritsType: res.data.meritsName, customerName: res.data.customerName, meritsAccount: res.data.meritsAccount, id: res.data.id }})
                 this.$modal.hide('dialog')
               }
             }
@@ -145,18 +179,23 @@ export default {
       })
     },
     choosedTemple() {
-      getBodhisatvvaList({ id: this.data.templeId }).then(res => {
+      getBodhisatvvaList({ id: this.data.merits.templeId }).then(res => {
         this.bodhisatvvaList = res.data
       })
-      getIncenseList({ id: this.data.templeId }).then(res => {
+      getIncenseList({ id: this.data.merits.templeId }).then(res => {
         this.incenseList = res.data
       })
+      for (const temple in this.templeList) {
+        if (this.templeList[temple].id === this.data.merits.templeId) {
+          this.data.merits.templeName = this.templeList[temple].templeName
+        }
+      }
     },
     setDate() {
       this.$picker.show({
         type: 'datePicker',
         onOk: (date) => {
-          this.data.applyTime = date
+          this.data.merits.applyTime = date
         }
       })
     }
