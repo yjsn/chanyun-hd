@@ -57,6 +57,7 @@ export default {
   border-radius:3px;
   padding-top: 20px;
   float: left;
+  font-size: 20px;
 }
 .left-user-img {
   margin-left: 72px;
