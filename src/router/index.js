@@ -5,13 +5,24 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
-
+import User from '../views/user/Index'
 export const constantRouterMap = [
   // { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   { path: '/register', component: () => import('@/views/Register'), hidden: true },
-  { path: '/user/index', component: () => import('@/views/user/index'), hidden: true },
   { path: '/login', component: () => import('@/views/Login'), hidden: true },
+  {
+    path: '/user',
+    component: User,
+    redirect: 'meritsList',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/user/MeritsList'),
+        name: 'meritsList'
+      }
+    ]
+  },
   {
     path: '',
     component: Layout,
