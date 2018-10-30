@@ -11,17 +11,21 @@
         <input type="text" placeholder="搜索">
         <img src="@/assets/searchIcon.png" alt="">
       </div>
-      <div class="navBar-login">
+      <div v-if="!didLogin" class="navBar-login">
         <router-link to="/login" tag="span">登陆</router-link>
         <span>|</span>
         <router-link to="/register" tag="span">注册</router-link>
+      </div>
+      <div v-else class="navBar-login">
+        <span>{{ userName }}</span><span class="logout" @click="logout">退出登陆</span>
+        <span>|</span>
+        <span>{{ userLevel }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'NavBar',
   data() {
@@ -44,27 +48,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.name)
-    switch (this.$route.name) {
-      case 'dashboard': this.itemChooseIndex = 0
-        break
-      case 'newsList': this.itemChooseIndex = 1
-        break
-      case 'introduction': this.itemChooseIndex = 2
-        break
-      case 'rulesList': this.itemChooseIndex = 3
-        break
-      case 'templeDynamicList': this.itemChooseIndex = 4
-        break
-      case 'templeList': this.itemChooseIndexTwo = 0
-        break
-      case 'rankingList': this.itemChooseIndexTwo = 1
-        break
-      case 'venerateBuddhaHome': this.itemChooseIndexTwo = 2
-        break
-      default: this.itemChooseIndex = null
-        this.itemChooseIndexTwo = null
-    }
   },
   methods: {
     logout() {
@@ -90,56 +73,18 @@ export default {
           }
         ]
       })
-    },
-    changeBtn(index) {
-      this.itemHoverIndex = index
-    },
-    removeBtn() {
-      this.itemHoverIndex = null
-    },
-    chooseBtn(index) {
-      this.itemChooseIndex = index
-      this.itemChooseIndexTwo = null
-      switch (index) {
-        case 0: this.$router.push('/index')
-          break
-        case 1: this.$router.push('/newsList')
-          break
-        case 2: this.$router.push('/introduction')
-          break
-        case 3: this.$router.push('/rulesList')
-          break
-        case 4: this.$router.push('/templeDynamicList')
-          break
-      }
-    },
-    changeBtnTwo(index) {
-      this.itemHoverIndexTwo = index
-    },
-    removeBtnTwo() {
-      this.itemHoverIndexTwo = null
-    },
-    chooseBtnTwo(index) {
-      this.itemChooseIndexTwo = index
-      this.itemChooseIndex = null
-      switch (index) {
-        case 0: this.$router.push('/templeList')
-          break
-        case 1: this.$router.push('/rankingList')
-          break
-        case 2: this.$router.push('/venerateBuddhaHome')
-          break
-        case 3: this.$router.push('/rulesList')
-          break
-        case 4: this.$router.push('/templeDynamicList')
-          break
-      }
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+  .logout {
+    border: 1px solid #A31501;
+    padding: 2px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
   .navBar {
     height: 254px;
     background-color: #f8e3bd;
@@ -180,12 +125,13 @@ export default {
     }
     &-right {
       display: flex;
-      width: 300px;
+      width: 500px;
       justify-content: space-between;
       align-items: center;
       font-size: 14px;
       color: #A31501;
       .navBar-login {
+        position: relative;
         span:nth-of-type(2n-1) {
           cursor: pointer;
         }

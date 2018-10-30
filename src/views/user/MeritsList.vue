@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { getTotalData } from '@/api/user'
 export default {
   name: 'MeritsList',
   data() {
@@ -39,7 +40,7 @@ export default {
       meritsType: [
         {
           name: '总功德',
-          value: 100
+          value: this.$store.state.user.meritsAccount ? this.$store.state.user.meritsAccount : 0
         },
         {
           name: '请香',
@@ -63,9 +64,47 @@ export default {
       pageCount: 0
     }
   },
+  created() {
+    this.setTopData()
+  },
   methods: {
     meritsTypeChange: function(index) {
       this.changeClass = index
+      this.$modal.show('dialog', {
+        title: '请确认!',
+        text: '是否要退出登陆！',
+        buttons: [
+          {
+            title: '取消',
+            handler: () => {
+              this.$modal.hide('dialog')
+            }
+          },
+          {
+            title: '确定',
+            handler: () => {
+              this.$modal.hide('dialog')
+              this.$store.dispatch('LogOut').then(() => {
+                location.reload() // 为了重新实例化vue-router对象 避免bug
+              })
+            }
+          }
+        ]
+      })
+    },
+    pageChange(pageNum) {
+      this.nowPage = pageNum
+      this.searchList()
+    },
+    setTopData() {
+      getTotalData({ bean: {}, pageNum: this.nowPage, pageSize: 10 }).then(res => {
+        console.log(res.data)
+        for (item in res.data) {
+          if(item.meritsType === 1){
+
+          }
+        }
+      })
     }
   }
 }

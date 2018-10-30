@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 const TokenKey = 'Admin-Token'
 const UserName = 'Admin-Name'
 const LevelName = 'Level-Name'
+const MeritsAccount = 'Merits-Account'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -38,4 +39,16 @@ export function setLevel(name) {
 
 export function removeLevel() {
   return Cookies.remove(LevelName)
+}
+
+export function getMeritsCount() {
+  return Cookies.get(MeritsAccount)
+}
+
+export function setMeritsCount(meritsAccount) {
+  return Cookies.set(MeritsAccount, meritsAccount)
+}
+
+export function removeMeritsCount() {
+  return Cookies.remove(MeritsAccount)
 }

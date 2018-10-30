@@ -1,12 +1,13 @@
 import { login, logout } from '@/api/index'
-import { getToken, setToken, removeToken, getName, setName, removeName, getLevel, setLevel, removeLevel } from '@/utils/auth'
+import { getToken, setToken, removeToken, getName, setName, removeName, getLevel, setLevel, removeLevel, getMeritsCount, setMeritsCount, removeMeritsCount } from '@/utils/auth'
 // import { getToken, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
     name: getName(),
-    level: getLevel()
+    level: getLevel(),
+    meritsAccount: getMeritsCount()
   },
 
   mutations: {
@@ -18,6 +19,9 @@ const user = {
     },
     SET_LEVEL: (state, level) => {
       state.level = level
+    },
+    SET_MERITS: (state, meritsAccount) => {
+      state.meritsAccount = meritsAccount
     }
   },
 
@@ -33,9 +37,11 @@ const user = {
           setToken('login')
           setName(response.data.userName)
           setLevel(response.data.levelName)
+          setMeritsCount(response.data.meritsAccount)
           commit('SET_TOKEN', 'login')
           commit('SET_NAME', response.data.userName)
           commit('SET_LEVEL', response.data.levelName)
+          commit('SET_MERITS', response.data.meritsAccount)
           resolve()
         }).catch(error => {
           reject(error)
@@ -50,11 +56,13 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_NAME', '')
           commit('SET_LEVEL', '')
+          commit('SET_MERITS', '')
           removeToken()
           removeName()
-          removeLevel()
+          removeMeritsCount()
           resolve()
         }).catch(error => {
+          removeLevel()
           reject(error)
         })
       })
@@ -66,9 +74,11 @@ const user = {
         commit('SET_TOKEN', '')
         commit('SET_NAME', '')
         commit('SET_LEVEL', '')
+        commit('SET_MERITS', '')
         removeToken()
         removeName()
         removeLevel()
+        removeMeritsCount()
         resolve()
       })
     }

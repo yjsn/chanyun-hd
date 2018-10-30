@@ -20,7 +20,7 @@
               <router-link to="/register" tag="span">注册</router-link>
             </div>
             <div v-else class="navBar-login">
-              <span>{{ userName }}</span><span class="logout" @click="logout">退出登陆</span>
+              <router-link to="/user/index" tag="span">{{ userName }}</router-link><span class="logout" @click="logout">退出登陆</span>
               <!--<span>我是你大</span><span class="logout" @click="logout">退出登陆</span>-->
               <span>|</span>
               <span>{{ userLevel }}</span>
@@ -133,7 +133,6 @@ export default {
   },
   methods: {
     logout() {
-      console.log(111)
       this.$modal.show('dialog', {
         title: '请确认!',
         text: '是否要退出登陆！',
