@@ -7,3 +7,18 @@ export function getTotalData(params) {
     data: params
   })
 }
+export function getMeritsList(params) {
+  return request({
+    url: '/api/userCenter/meritsList',
+    method: 'post',
+    data: params
+  })
+}
+
+export function getMeritsDetail(params) {
+  return request({
+    url: '/api/userCenter/meritsDetail',
+    method: 'post',
+    data: params
+  })
+}

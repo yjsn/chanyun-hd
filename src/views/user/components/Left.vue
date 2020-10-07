@@ -31,11 +31,7 @@ export default {
         },
         {
           name: '功德榜',
-          url: '/user/index'
-        },
-        {
-          name: '烧香记录',
-          url: '/user/index'
+          url: '/rankingList'
         }
       ],
       changeClass: 0

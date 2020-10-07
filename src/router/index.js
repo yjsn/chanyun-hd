@@ -11,6 +11,8 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   { path: '/register', component: () => import('@/views/Register'), hidden: true },
   { path: '/login', component: () => import('@/views/Login'), hidden: true },
+  { path: '/blessing', component: () => import('@/views/mobile/Blessing'), hidden: true },
+  { path: '/blessingIndex', component: () => import('@/views/mobile/BlessingLandingPage'), hidden: true },
   {
     path: '/user',
     component: User,
@@ -20,6 +22,11 @@ export const constantRouterMap = [
         path: 'index',
         component: () => import('@/views/user/MeritsList'),
         name: 'meritsList'
+      },
+      {
+        path: 'meritsDetail',
+        component: () => import('@/views/user/MeritsDetail'),
+        name: 'meritsDetail'
       }
     ]
   },

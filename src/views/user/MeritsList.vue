@@ -2,7 +2,7 @@
   <div class = "merits-container">
     <div class="merits-type-top">
       <ul>
-        <li v-for="(item,index) in meritsType" :key="index" :class="{active:changeClass == index}" @click = "meritsTypeChange(index)">
+        <li v-for="(item,index) in meritsTypeList" :key="index" :class="{active:changeClass == index}" @click = "meritsTypeChange(index)">
           <span :title="item.value">{{ item.name }}：{{ item.value }}</span>
         </li>
       </ul>
@@ -11,10 +11,20 @@
       <div class="merits-list-title">
         <div>功德编号</div>
         <div>功德项目</div>
-        <div>寺庙</div>
         <div>请香人</div>
+        <div>日期</div>
         <div>状态</div>
         <div>操作</div>
+      </div>
+      <div v-for="(item,index) in meritsList" :key="index" class="merits-list-title">
+        <div>{{ item.meritsNumber }}</div>
+        <div>{{ item.meritsName }}</div>
+        <div>{{ item.customerName }}</div>
+        <div>{{ item.applyTime }}</div>
+        <div>{{ item.meritsStatus === 2 ? '进行中': '已完成' }}</div>
+        <div>
+          <router-link :to="{ path: '/user/meritsDetail', query: { id: item.id } }" tag="span">查看详情</router-link>
+        </div>
       </div>
     </div>
     <paginate
@@ -32,33 +42,34 @@
 </template>
 
 <script>
-import { getTotalData } from '@/api/user'
+import { getTotalData, getMeritsList } from '@/api/user'
 export default {
   name: 'MeritsList',
   data() {
     return {
-      meritsType: [
+      meritsTypeList: [
         {
           name: '总功德',
           value: this.$store.state.user.meritsAccount ? this.$store.state.user.meritsAccount : 0
         },
         {
           name: '请香',
-          value: 80
+          value: 0
         },
         {
           name: '许愿',
-          value: 10
+          value: 0
         },
         {
           name: '供奉佛灯',
-          value: 10
+          value: 0
         },
         {
-          name: '捐助',
-          value: 10
+          name: '忏悔',
+          value: 0
         }
       ],
+      meritsList: [],
       changeClass: 0,
       nowPage: 1,
       pageCount: 0
@@ -66,6 +77,7 @@ export default {
   },
   created() {
     this.setTopData()
+    this.searchList()
   },
   methods: {
     meritsTypeChange: function(index) {
@@ -97,14 +109,39 @@ export default {
       this.searchList()
     },
     setTopData() {
-      getTotalData({ bean: {}, pageNum: this.nowPage, pageSize: 10 }).then(res => {
-        console.log(res.data)
-        for (item in res.data) {
-          if(item.meritsType === 1){
-
+      getTotalData().then(res => {
+        for (const item in res.data) {
+          for (const index in this.meritsTypeList) {
+            if (res.data[item].meritsType === 1) {
+              if (this.meritsTypeList[index].name === '请香') {
+                this.meritsTypeList[index].value = res.data[item].meritsAccount
+              }
+            } else if (res.data[item].meritsType === 2) {
+              if (this.meritsTypeList[index].name === '供奉佛灯') {
+                this.meritsTypeList[index].value = res.data[item].meritsAccount
+              }
+            } else if (res.data[item].meritsType === 3) {
+              if (this.meritsTypeList[index].name === '许愿') {
+                this.meritsTypeList[index].value = res.data[item].meritsAccount
+              }
+            } else if (res.data[item].meritsType === 4) {
+              if (this.meritsTypeList[index].name === '忏悔') {
+                this.meritsTypeList[index].value = res.data[item].meritsAccount
+              }
+            }
           }
         }
       })
+    },
+    searchList() {
+      getMeritsList({ bean: {}, pageNum: this.nowPage, pageSize: 10 }).then(res => {
+        this.meritsList = res.data.list
+        this.pageCount = Math.ceil(res.data.total / 10)
+      })
+    },
+    meritsDetail(id) {
+      console.log(id)
+      this.router.query
     }
   }
 }
@@ -141,6 +178,10 @@ export default {
       width: 15%;
       display: inline-block;
       text-align: center;
+      span {
+        cursor: pointer;
+        color: #A31501;
+      }
     }
   }
 }
